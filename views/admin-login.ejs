@@ -1,27 +1,40 @@
-<%- include('partials/head', { title: 'Admin Login', extraCss: ['/css/admin.css'], noindex: true }) %>
+<%- include('partials/head', {
+  title: 'Admin Login',
+  extraCss: ['/css/admin.css'],
+  noindex: true
+}) %>
+
 <body class="admin-body">
-<div class="login-wrap">
-  <div class="login-card">
-    <div class="login-logo" aria-hidden="true">🪙</div>
-    <h1>Bonus Coin Giveaway</h1>
-    <p class="login-sub">Administrator Sign In</p>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo" aria-hidden="true">🪙</div>
 
-    <% if (error) { %>
-      <div class="notice error"><%= error %></div>
-    <% } %>
+      <h1>Bonus Coin Giveaway</h1>
+      <p class="login-sub">Administrator Sign In</p>
 
-    <form method="POST" action="/admin/login">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required autocomplete="username">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required autocomplete="current-password">
-      </div>
-      <button type="submit" class="btn btn-primary btn-full">Sign In</button>
-    </form>
+      <% if (error) { %>
+        <div class="notice error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/admin/login">
+        <div class="form-group">
+          <label for="pin">Admin PIN</label>
+          <input
+            type="password"
+            id="pin"
+            name="pin"
+            required
+            inputmode="numeric"
+            autocomplete="current-password"
+            placeholder="Enter your admin PIN"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+          Sign In
+        </button>
+      </form>
+    </div>
   </div>
-</div>
 </body>
 </html>
