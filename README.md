@@ -1,4 +1,4 @@
-# Bonus Coin Giveaway
+# Claimora
 
 A simple, professional, mobile-friendly giveaway website. Followers visit two public
 pages (Home and Rewards) to view the current giveaway and submit a claim. A separate,
