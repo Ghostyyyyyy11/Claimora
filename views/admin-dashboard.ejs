@@ -1,0 +1,89 @@
+<%- include('partials/head', { title: 'Admin Dashboard', extraCss: ['/css/admin.css'], noindex: true }) %>
+<body class="admin-body">
+<div class="admin-shell">
+  <header class="admin-topbar">
+    <div class="admin-brand">🪙 Bonus Coin Giveaway — Admin</div>
+    <form method="POST" action="/admin/logout">
+      <button type="submit" class="btn btn-ghost">Log out</button>
+    </form>
+  </header>
+
+  <nav class="admin-tabs">
+    <button class="tab-btn active" data-tab="settings">Welcome &amp; Reward</button>
+    <button class="tab-btn" data-tab="details">Reward Details</button>
+    <button class="tab-btn" data-tab="fields">Submission Fields</button>
+    <button class="tab-btn" data-tab="submissions">Submissions</button>
+  </nav>
+
+  <main class="admin-content">
+    <section id="tab-settings" class="tab-panel active">
+      <h2>Welcome Message</h2>
+      <p class="hint">Shown on the home page. Edit it any time — it's never hard-coded to a specific reward.</p>
+      <textarea id="welcomeMessage" rows="4"></textarea>
+
+      <h2>Reward Information</h2>
+      <div class="form-group">
+        <label for="rewardTitle">Reward Title</label>
+        <input type="text" id="rewardTitle" placeholder="e.g. October Bonus Coin Airdrop">
+      </div>
+      <div class="form-group">
+        <label for="rewardDescription">Reward Description</label>
+        <textarea id="rewardDescription" rows="4" placeholder="Describe the current giveaway…"></textarea>
+      </div>
+      <div class="form-group checkbox-row">
+        <label><input type="checkbox" id="rewardActive"> Giveaway is active (accepting entries)</label>
+      </div>
+      <button class="btn btn-primary" id="save-settings">Save Changes</button>
+      <span id="settings-saved" class="saved-msg hidden">Saved ✓</span>
+    </section>
+
+    <section id="tab-details" class="tab-panel">
+      <h2>Reward Details</h2>
+      <p class="hint">
+        Optional key/value details shown on the Rewards page — for example a deposit address, promo code, or
+        prize amount. Turn on "Copyable" for values people will need to copy, like a wallet address.
+      </p>
+      <div id="details-list" class="item-list"></div>
+      <div class="add-form">
+        <input type="text" id="new-detail-label" placeholder="Label (e.g. Deposit Address)">
+        <input type="text" id="new-detail-value" placeholder="Value">
+        <label class="inline-check"><input type="checkbox" id="new-detail-copyable"> Copyable</label>
+        <button class="btn btn-secondary" id="add-detail">+ Add Detail</button>
+      </div>
+    </section>
+
+    <section id="tab-fields" class="tab-panel">
+      <h2>Submission Fields</h2>
+      <p class="hint">
+        These are the fields followers fill in when they claim a reward. Add as many as you need — there's no
+        fixed set, so a field can be a wallet address, an account number, a username, or anything else this
+        giveaway requires.
+      </p>
+      <div id="fields-list" class="item-list"></div>
+      <div class="add-form">
+        <input type="text" id="new-field-label" placeholder="Field label (e.g. Wallet Address)">
+        <input type="text" id="new-field-placeholder" placeholder="Placeholder text">
+        <label class="inline-check"><input type="checkbox" id="new-field-required"> Required</label>
+        <label class="inline-check"><input type="checkbox" id="new-field-copyable"> Copyable</label>
+        <button class="btn btn-secondary" id="add-field">+ Add Field</button>
+      </div>
+    </section>
+
+    <section id="tab-submissions" class="tab-panel">
+      <h2>Submissions</h2>
+      <div class="submissions-toolbar">
+        <button class="btn btn-primary" id="pick-random">🎲 Pick Random Winner</button>
+        <button class="btn btn-danger" id="reset-submissions">Reset All (Start New Giveaway)</button>
+      </div>
+      <div id="submissions-table"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+  window.__ADMIN_INIT__ = <%- initialData %>;
+  window.__CSRF_TOKEN__ = <%- JSON.stringify(csrfToken) %>;
+</script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<%- include('partials/head', { title: 'Bonus Coin Giveaway' }) %>
+<body>
+<%- include('partials/public-header') %>
+
+<main>
+  <section class="hero">
+    <div class="hero-icon" aria-hidden="true">🪙</div>
+    <h1>Bonus Coin Giveaway</h1>
+    <p class="hero-message"><%= welcomeMessage %></p>
+    <div class="hero-actions">
+      <a href="/rewards" class="btn btn-secondary">🎁 View Rewards</a>
+      <a href="/rewards?claim=1" class="btn btn-primary btn-large">🏆 Claim Reward</a>
+    </div>
+  </section>
+
+  <section class="info-strip">
+    <div class="info-card">
+      <span class="info-icon" aria-hidden="true">🔒</span>
+      <p>Your information is kept secure and private.</p>
+    </div>
+    <div class="info-card">
+      <span class="info-icon" aria-hidden="true">⚡</span>
+      <p>Fast, simple entry — built for our Telegram community.</p>
+    </div>
+    <div class="info-card">
+      <span class="info-icon" aria-hidden="true">🎉</span>
+      <p>New rewards announced regularly. Stay tuned!</p>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/public-footer') %>
+</body>
+</html>
