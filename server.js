@@ -12,7 +12,6 @@ const adminApiRoutes = require('./routes/adminApi');
 const app = express();
 const isProd = process.env.NODE_ENV === 'production';
 
-// Render sits behind a proxy; this lets secure cookies work correctly.
 app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -23,35 +22,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 if (!process.env.SESSION_SECRET) {
   console.warn(
-    '[WARNING] SESSION_SECRET is not set. Using an insecure default. Set a real SESSION_SECRET in production.'
+    '[WARNING] SESSION_SECRET is not set. Add it in Render Environment Variables.'
   );
 }
-if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
+
+if (!process.env.ADMIN_PIN) {
   console.warn(
-    '[WARNING] ADMIN_USERNAME / ADMIN_PASSWORD_HASH are not set. The /admin login will not work until they are configured. See README.md.'
+    '[WARNING] ADMIN_PIN is not set. Admin login will not work until it is configured in Render.'
   );
 }
 
 app.use(
   session({
     name: 'bcg.sid',
-    secret: process.env.SESSION_SECRET || 'dev-insecure-secret-change-me',
+    secret:
+      process.env.SESSION_SECRET ||
+      'development-secret-change-this-in-render',
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
       sameSite: 'lax',
       secure: isProd,
-      maxAge: 1000 * 60 * 60 * 8 // 8 hours
+      maxAge: 1000 * 60 * 60 * 8
     }
   })
 );
 
-// Public site
 app.use('/', publicRoutes);
 app.use('/', publicApiRoutes);
 
-// Admin (separate area, not linked from public pages)
 app.use('/admin', adminPagesRoutes);
 app.use('/admin/api', adminApiRoutes);
 
@@ -59,7 +59,15 @@ app.use((req, res) => {
   res.status(404).send('Page not found');
 });
 
+app.use((err, req, res, next) => {
+  console.error('[SERVER ERROR]', err);
+  res.status(500).send('Internal server error');
+});
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Bonus Coin Giveaway server running on port ${PORT}`);
+  console.log(
+    `Bonus Coin Giveaway server running on port ${PORT}`
+  );
 });
